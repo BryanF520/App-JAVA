@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/app.html}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lista de Ingresos</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div class="container mt-4">
+        <div class="card shadow-sm">
+          <div
+            class="card-header bg-dark text-white d-flex justify-content-between align-items-center"
+          >
+            <h3 class="mb-0">Lista de Ingresos</h3>
+            <div class="mb-0">
+              <a th:href="@{/ingresos/create}" class="btn btn-primary"
+                >+ Crear Nuevo Ingreso</a
+              >
+              <a th:href="@{/ingresos/personas/index}" class="btn btn-success"
+                >Personas</a
+              >
+              <a th:href="@{/ingresos/accesos/index}" class="btn btn-secondary"
+                >Accesos</a
+              >
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="table table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Persona</th>
+                  <th>Motivo</th>
+                  <th>Fecha de Ingreso</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="ingreso : ${ingresos}">
+                  <td th:text="${ingreso.id}">1</td>
+                  <td>
+                    <span th:text="${ingreso.persona.nombreUno}"></span>
+                    <span th:text="${ingreso.persona.nombreDos}"></span>
+                    <span th:text="${ingreso.persona.apellidoUno}"></span>
+                    <span th:text="${ingreso.persona.apellidoDos}"></span>
+                  </td>
+                  <td th:text="${ingreso.motivo}"></td>
+                  <td
+                    th:text="${#temporals.format(ingreso.Fecha_ingreso, 'yyyy-MM-dd HH:mm')}"
+                  ></td>
+                  <td>
+                    <div class="d-flex gap-2">
+                      <a
+                        th:href="@{/ingresos/show/{id}(id=${ingreso.id})}"
+                        class="btn btn-info btn-sm"
+                        >Ver</a
+                      >
+                      <div
+                        class="d-flex gap-2"
+                        sec:authorize="hasRole('Administrador')"
+                      >
+                        <a
+                          th:href="@{/ingresos/edit/{id}(id=${ingreso.id})}"
+                          class="btn btn-warning btn-sm"
+                          >Editar</a
+                        >
+
+                        <form
+                          th:action="@{/ingresos/delete/{id}(id=${ingreso.id})}"
+                          method="post"
+                          onsubmit="return confirm('¿Está seguro de desactivar este usuario?')"
+                          style="display: inline"
+                        >
+                          <input type="hidden" value="delete" />
+                          <button type="submit" class="btn btn-danger btn-sm">
+                            Desactivar
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

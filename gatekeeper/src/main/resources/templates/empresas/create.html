@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/app.html}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Crear Empresa</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div class="container mt-5">
+        <div class="card shadow-sm">
+          <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Registrar Nueva Empresa</h4>
+          </div>
+          <div class="card-body">
+            <form th:action="@{/empresas}" method="post" th:object="${empresa}">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="nit" class="form-label">NIT:</label>
+                  <input
+                    type="text"
+                    id="nit"
+                    th:field="*{nit}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-6">
+                  <label for="nombre" class="form-label">Nombre:</label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    th:field="*{nombre}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-6">
+                  <label for="area" class="form-label">Área:</label>
+                  <input
+                    type="text"
+                    id="area"
+                    th:field="*{area}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-6">
+                  <label for="contacto" class="form-label">Contacto:</label>
+                  <input
+                    type="text"
+                    id="contacto"
+                    th:field="*{contacto}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="ubicacion" class="form-label">Ubicación:</label>
+                  <input
+                    type="text"
+                    id="ubicacion"
+                    th:field="*{ubicacion}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end mt-4 gap-2">
+                <a th:href="@{/empresas}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
