@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/app.html}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Editar Acceso</title>
+  </head>
+
+  <body>
+    <section layout:fragment="content">
+      <div class="container mt-4">
+        <!-- Mensaje de error -->
+        <div th:if="${error}" class="alert alert-danger text-center mb-3">
+          <span th:text="${error}"></span>
+        </div>
+        <div class="card-custom mx-auto" style="max-width: 700px">
+          <div class="card-header-custom text-center">Editar Acceso</div>
+
+          <div class="card-body">
+            <form
+              th:action="@{/ingresos/accesos/{id}/update(id=${acceso.id})}"
+              th:object="${acceso}"
+              method="post"
+            >
+              <div class="row g-3">
+                <!-- Persona -->
+                <div class="col-md-6">
+                  <label class="form-label">Persona:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    th:value="${acceso.persona.nombreUno + ' ' + acceso.persona.apellidoUno}"
+                    disabled
+                  />
+                </div>
+
+                <!-- Fecha ingreso -->
+                <div class="col-md-6">
+                  <label class="form-label">Fecha de ingreso:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    th:value="${acceso.fecha_ingreso}"
+                    disabled
+                  />
+                </div>
+
+                <!-- Empresa -->
+                <div class="col-md-12">
+                  <label class="form-label">Empresa:</label>
+                  <select
+                    class="form-control"
+                    th:field="*{empresa.id}"
+                    required
+                  >
+                    <option value="">Seleccione una empresa</option>
+                    <option
+                      th:each="emp : ${empresas}"
+                      th:value="${emp.id}"
+                      th:text="${emp.nombre}"
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Motivo -->
+                <div class="col-md-12">
+                  <label class="form-label">Motivo del ingreso:</label>
+                  <textarea
+                    class="form-control"
+                    th:field="*{motivo}"
+                    placeholder="Escriba el motivo..."
+                    required
+                  ></textarea>
+                </div>
+              </div>
+
+              <!-- Oculto: persona.id (para mantener la relación) -->
+              <input type="hidden" th:field="*{persona.id}" />
+
+              <div class="d-flex justify-content-end mt-4 gap-2">
+                <a th:href="@{/ingresos/accesos}" class="btn-secondary-custom"
+                  ><i class="bi bi-x-circle me-1"></i>Cancelar</a
+                >
+                <button type="submit" class="btn-primary-custom">
+                  <i class="bi bi-arrow-repeat me-1"></i>Actualizar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
