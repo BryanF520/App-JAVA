@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/app.html}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lista de Ingresos</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section layout:fragment="content">
+      <div class="card-custom">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="page-title mb-0">Lista de Ingresos</h2>
+          <div class="d-flex gap-2">
+            <a th:href="@{/ingresos/create}" class="btn-primary-custom">
+              <i class="bi bi-plus-circle"></i> Crear Nuevo Ingreso</a
+            >
+            <a
+              th:href="@{/ingresos/personas/index}"
+              class="btn-secondary-custom"
+            >
+              <i class="bi bi-person-circle"></i> Personas</a
+            >
+            <a th:href="@{/ingresos/accesos/index}" class="btn-primary-custom"
+              ><i class="bi bi-box-arrow-in-right"></i> Accesos</a
+            >
+          </div>
+        </div>
+        <div class="card-custom mb-3">
+          <!-- Formulario de búsqueda por filtros -->
+          <div class="d-flex justify-content-between align-items-center">
+            <span
+              class="badge bg-success"
+              th:text="'Total Ingresos: ' + ${totalIngresos}"
+            ></span>
+            <form th:action="@{/ingresos}" method="get" class="d-flex gap-1">
+              <input
+                type="date"
+                name="fecha"
+                class="form-control form-control-sm"
+                style="width: 150px"
+                th:value="${filtroFecha}"
+              />
+              <button type="submit" class="btn-primary-custom">
+                <i class="bi bi-search"></i>
+              </button>
+              <a th:href="@{/ingresos}" class="btn-secondary-custom">
+                <i class="bi bi-arrow-clockwise"></i>
+              </a>
+            </form>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-modern">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Persona</th>
+                <th>Motivo</th>
+                <th>Fecha de Ingreso</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="ingreso : ${ingresos}">
+                <td th:text="${ingreso.id}">1</td>
+                <td>
+                  <span th:text="${ingreso.persona.nombreUno}"></span>
+                  <span th:text="${ingreso.persona.nombreDos}"></span>
+                  <span th:text="${ingreso.persona.apellidoUno}"></span>
+                  <span th:text="${ingreso.persona.apellidoDos}"></span>
+                </td>
+                <td th:text="${ingreso.motivo}"></td>
+                <td
+                  th:text="${#temporals.format(ingreso.Fecha_ingreso, 'yyyy-MM-dd HH:mm')}"
+                ></td>
+                <td>
+                  <div class="d-flex gap-2">
+                    <a
+                      th:href="@{/ingresos/show/{id}(id=${ingreso.id})}"
+                      class="btn-read table-btn"
+                      ><i class="bi bi-eye"></i
+                    ></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
